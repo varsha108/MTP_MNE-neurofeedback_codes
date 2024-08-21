@@ -1,0 +1,15 @@
+#Loading and visualizing .xdf file on MNE (helps in offline analysis)
+import pyxdf
+import mne
+
+xdf_fpath = "C:/Users/varsh/.spyder-py3/session1.xdf"
+
+streams, header = pyxdf.load_xdf(xdf_fpath)
+
+eeg_stream = streams[0]
+data = streams[0]["time_series"].T
+ch_names = ['Ch1', 'Ch2', 'Ch3', 'Ch4', 'Ch5', 'Ch6', 'Ch7', 'Ch8', 'Ch9', 'Ch10', 'Ch11', 'Ch12']
+sfreq = float(streams[0]["info"]["nominal_srate"][0])
+info = mne.create_info(ch_names, sfreq=sfreq, ch_types='eeg')
+raw = mne.io.RawArray(data, info)
+raw.plot(scalings="auto")
