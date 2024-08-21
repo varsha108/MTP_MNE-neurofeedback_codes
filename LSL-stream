@@ -1,0 +1,20 @@
+# Automatic acquisition of LSL stream
+#In automatic mode, stream object acquires new chunks of samples at a regular interval
+import uuid
+from time import sleep
+
+from mne_lsl.player import PlayerLSL
+from mne_lsl.stream import StreamLSL
+
+#Creating a LSL stream from loaded file
+source_id = uuid.uuid4().hex
+player = PlayerLSL(raw, chunk_size=200, annotations=True)
+player.start()
+player.info
+
+#Streaming the chunks 
+mne_lsl.lsl.resolve_streams()
+stream = StreamLSL(bufsize=2, name=source_id).connect(acquisition_delay=0.1)
+sleep(2) # waiting for new samples
+print(f"New samples acquired: {stream.n_new_samples}")
+stream.disconnect()
