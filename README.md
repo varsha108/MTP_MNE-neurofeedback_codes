@@ -1,4 +1,5 @@
 # MTP_MNE-neurofeedback_codes
+# Info on the classes/libraries used in the codes 
 
 ## class PlayerLSL(BasePlayer):
     """Class for creating a mock LSL stream.
