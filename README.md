@@ -65,3 +65,20 @@
     Thus, a sample on this :class:`~mne_lsl.lsl.StreamOutlet` is a one-hot encoded
     vector of the :class:`~mne.Annotations` description/duration.
     """
+## class StreamLSL(bufsize: float, *, name: Optional[str]=None, stype: Optional[str]=None, source_id: Optional[str]=None)
+
+Stream object representing a single LSL stream.
+
+Parameters
+%(stream_bufsize)s name : str
+
+Name of the LSL stream.
+
+stypestr
+Type of the LSL stream.
+
+source_idstr
+ID of the source of the LSL stream.
+
+Notes
+The 3 arguments name, stype, and source_id must uniquely identify an LSL stream. If this is not possible, please resolve the available LSL streams with mne_lsl.lsl.resolve_streams() and create an inlet with StreamInlet.
