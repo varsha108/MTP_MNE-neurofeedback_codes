@@ -12,9 +12,32 @@ player = PlayerLSL(raw, chunk_size=200, annotations=True)
 player.start()
 player.info
 
+#Acquiring information and creating interval 
+sfreq = player.info["sfreq"]
+chunk_size = player.chunk_size
+interval = chunk_size / sfreq  # in seconds
+print(f"Interval between 2 push operations: {interval} seconds.")
+
 #Streaming the chunks 
 mne_lsl.lsl.resolve_streams()
 stream = StreamLSL(bufsize=2, name=source_id).connect(acquisition_delay=0.1)
 sleep(2) # waiting for new samples
 print(f"New samples acquired: {stream.n_new_samples}")
 stream.disconnect()
+
+#Visualizing/Plotting the LSL stream created 
+#Run this code before stream.disconnect
+picks = ('Ch1', 'Ch2', 'Ch3')  # channel selection
+f, ax = plt.subplots(3, 1, sharex=True, constrained_layout=True)
+for _ in range(3):  # acquire 3 separate window
+    # figure how many new samples are available, in seconds
+    winsize = stream.n_new_samples / stream.info["sfreq"]
+    # retrieve and plot data
+    data, ts = stream.get_data(winsize, picks=picks)
+    for k, data_channel in enumerate(data):
+        ax[k].plot(ts, data_channel)
+    time.sleep(0.5)
+for k, ch in enumerate(picks):
+    ax[k].set_title(f"EEG {ch}")
+ax[-1].set_xlabel("Timestamp (LSL time)")
+plt.show()
