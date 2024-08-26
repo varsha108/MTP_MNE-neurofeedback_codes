@@ -12,4 +12,5 @@ ch_names = ['Ch1', 'Ch2', 'Ch3', 'Ch4', 'Ch5', 'Ch6', 'Ch7', 'Ch8', 'Ch9', 'Ch10
 sfreq = float(streams[0]["info"]["nominal_srate"][0])
 info = mne.create_info(ch_names, sfreq=sfreq, ch_types='eeg')
 raw = mne.io.RawArray(data, info)
-raw.plot(scalings="auto")
+raw.apply_function(lambda x: x*1e-6, picks='eeg')
+raw.plot(scalings=dict(eeg=20e-6), title=' ')
